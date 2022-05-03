@@ -6,10 +6,8 @@ import Header from "./components/Header/Header";
 
 
 function App() {
-  const [user, setUser] = useState("");
-  const [repo, setRepo] = useState("");
-  const localUser = localStorage.getItem("user");
-  const localRepo = localStorage.getItem("repository");
+  const [user, setUser] = useState(localStorage.getItem("user"));
+  const [repo, setRepo] = useState(localStorage.getItem("repository"));
   const updateUserAndRepo = (user, repo) => {
     setUser(user);
     setRepo(repo);
@@ -19,19 +17,19 @@ function App() {
       <Header onSubmitForm={updateUserAndRepo} />
       <Routes>
         <Route path="/" />
-        {localUser &&
-          localUser.trim() !== "" &&
-          localRepo &&
-          localRepo.trim() !== "" && (
+        {user &&
+          user.trim() !== "" &&
+          repo &&
+          repo.trim() !== "" && (
             <React.Fragment>
               <Route
                 path="issues"
-                element={<GithubIssues user={localUser} repo={localRepo} />}
+                element={<GithubIssues user={user} repo={repo} />}
               />
               <Route
                 path="pulls"
                 element={
-                  <GithubPullRequests user={localUser} repo={localRepo} />
+                  <GithubPullRequests user={user} repo={repo} />
                 }
               />
             </React.Fragment>

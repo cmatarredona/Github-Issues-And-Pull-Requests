@@ -5,6 +5,7 @@ import Issue from "./Issue";
 import Pagination from "../../Pagination/Pagination";
 import styles from "./GithubIssues.module.css";
 
+var message="No issues found";
 const GithubIssues = ({ user, repo }) => {
   const issues = useSelector((state) => state.issues.items || []);
   const [page, setPage] = useState(1);
@@ -14,16 +15,23 @@ const GithubIssues = ({ user, repo }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchIssuesPage(user, repo, page + 1));
-  }, [page]);
+  }, [page, dispatch, user, repo]);
 
-  //Filtro para que solo se muestre el primer item que encuentre con un id
-  var prevId;
-  const showIssues = issues.filter((issue) => {
-    if (issue.issue.state === "open" && prevId !== issue.issue.id) {
-      prevId = issue.issue.id;
-      return issue;
-    }
-  });
+  //Filtro para que no se muestre 2 veces seguidas el mismo issue.
+  var showIssues = [];
+  if (!issues.message) {
+    var prevId;
+    showIssues = issues.filter((issue) => {
+      if (issue.issue.state === "open" && prevId !== issue.issue.id) {
+        prevId = issue.issue.id;
+        return issue;
+      }
+      return null;
+    });
+  }else{
+    message=issues.message;
+  }
+
   return (
     <div className={styles.content}>
       {showIssues.length > 0 ? (
@@ -33,7 +41,7 @@ const GithubIssues = ({ user, repo }) => {
           ))}
         </ul>
       ) : (
-        <h3 className={styles.noFound}>No issues found</h3>
+        <h3 className={styles.noFound}>{message}</h3>
       )}
       <Pagination onChange={pageChangeHandler} actualPage={1} />
     </div>
