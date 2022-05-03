@@ -1,0 +1,35 @@
+.modal {
+  position: fixed;
+  top: 10vh;
+  left: 10%;
+  width: 80%;
+  height: 80vh;
+  z-index: 100;
+  background-color: #232c31;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+}
+.actions {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.actions button {
+  margin: 1rem;
+}
+/* tablet screen */
+@media (max-width: 992px) {
+  .modal {
+    left: 10%;
+  }
+  @media (max-width: 768px) {
+    .modal{
+      left: 6%;
+      top:5vh;
+    }
+  }
+}

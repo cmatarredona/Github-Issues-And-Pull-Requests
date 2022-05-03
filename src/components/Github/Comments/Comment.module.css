@@ -1,0 +1,36 @@
+.comment{
+    display: flex;
+    padding: 0.5rem;
+    border-bottom: 1px solid #e6e6e6;
+    overflow-wrap: break-word;
+}
+.avatar img{
+    width: 50px;
+    border-radius: 50%;
+    padding: 10px 0;
+}
+.content{
+    padding: 10px;
+}
+.content>*{
+    padding: 10px;
+}
+.content_header{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.name{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.date{
+    font-size: 0.8rem;
+}
+/* phone screen */
+@media (max-width: 768px) {
+    .content{
+        width: calc(100% - 4rem);
+        margin: 0 1rem;        
+    }
+}
