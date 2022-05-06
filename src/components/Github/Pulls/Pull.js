@@ -49,16 +49,14 @@ const Pull = ({ pull }) => {
                 <small
                   className={styles.label}
                   key={label.id}
-                  style={{ "backgroundColor": "#" + label.color }}
+                  style={{ backgroundColor: "#" + label.color }}
                 >
                   {label.name}
                 </small>
               ))}
             </div>
           </div>
-          <span>
-            {messageIcon} {/* {pull.comments} */}
-          </span>
+          <span>{messageIcon}</span>
         </div>
         <div>
           <small className={styles.contentInfo}>

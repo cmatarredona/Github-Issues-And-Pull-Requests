@@ -22,7 +22,7 @@ const GithubIssues = ({ user, repo }) => {
   if (!issues.message) {
     var prevId;
     showIssues = issues.filter((issue) => {
-      if (issue.issue.state === "open" && prevId !== issue.issue.id) {
+      if (issue.issue.state === "open" && prevId !== issue.issue.id && !issue.issue.pull_request) {
         prevId = issue.issue.id;
         return issue;
       }

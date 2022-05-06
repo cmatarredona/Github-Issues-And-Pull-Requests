@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchAllData } from "../../store/issues-pull-actions";
+import { checkRepository } from "../../store/issues-pull-actions";
 import styles from "./SearchForm.module.css";
 
 const SearchForm = ({ onSubmitForm }) => {
@@ -12,16 +12,15 @@ const SearchForm = ({ onSubmitForm }) => {
     e.preventDefault();
     onSubmitForm(userRef.current.value, repoRef.current.value);
     const response = await dispatch(
-      fetchAllData(userRef.current.value, repoRef.current.value)
+      checkRepository(userRef.current.value, repoRef.current.value)
     );
     setMessage(response.message || "Valid repository");
-    if(response.message.includes("API rate limit exceeded")){
+    if(response.message?.includes("API rate limit exceeded")){
       setMessage("API rate limit exceeded");
     }
   };
-  const userPlaceholder = localStorage.getItem("user") || "facebook";
-  const repoPlaceholder = localStorage.getItem("repository") || "react";
-  console.log("placeholders", userPlaceholder, repoPlaceholder);
+  const userPlaceholder = localStorage.getItem("user") || "jquery";
+  const repoPlaceholder = localStorage.getItem("repository") || "jquery";
   return (
     <form onSubmit={formHandler} className={styles.form}>
       <div>

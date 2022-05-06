@@ -27,7 +27,7 @@
 .date{
     font-size: 0.8rem;
 }
-/* phone screen */
+
 @media (max-width: 768px) {
     .content{
         width: calc(100% - 4rem);

@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
       <Header onSubmitForm={updateUserAndRepo} />
       <Routes>
-        <Route path="/" />
+        <Route path="/" element={""}/>
         {user &&
           user.trim() !== "" &&
           repo &&

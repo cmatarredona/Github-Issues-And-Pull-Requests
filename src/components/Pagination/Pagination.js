@@ -18,12 +18,12 @@ const Pagination = ({ actualPage, onChange }) => {
 
   const nextPageHandler = () => {
     setActualPage(+actualPages + 1);
-    navigate(`${location.pathname}?page=${actualPages + 1}`);
+    navigate(`${location.pathname}?page=${+actualPages + 1}`);
   };
   const prevPageHandler = () => {
     if(actualPages > 1){
-      setActualPage(actualPages - 1);
-      navigate(`${location.pathname}?page=${actualPages - 1}`);
+      setActualPage(+actualPages - 1);
+      navigate(`${location.pathname}?page=${+actualPages - 1}`);
     }
   };
 
