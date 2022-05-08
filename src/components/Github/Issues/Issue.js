@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Modal from "../../Modals/Modal";
 import styles from "../issue-pull.module.css";
+import Comments from "../Comments/Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIssueComments } from "../../../store/issues-pull-actions";
+import Spinner from "../../Spinner/Spinner";
 const messageIcon = (
   <svg
     aria-hidden="true"
@@ -21,11 +23,12 @@ const messageIcon = (
 );
 const Issue = ({ issue }) => {
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const comments = useSelector((state) => state.issues.comments || []);
   const dispatch = useDispatch();
   const handleClick = () => {
     if (!showModal) {
-      dispatch(fetchIssueComments(issue.issue.comments_url));
+      dispatch(fetchIssueComments(issue.issue.comments_url, setIsLoading));
     }
     setShowModal((show) => !show);
   };
@@ -33,12 +36,15 @@ const Issue = ({ issue }) => {
   return (
     <React.Fragment>
       {showModal && (
-        <Modal
-          onClick={handleClick}
-          title={issue.issue.title}
-          description={issue.issue.body}
-          comments={comments}
-        />
+        <Modal onClick={handleClick}>
+          <div>
+            <h1>{issue.issue.title}</h1>
+            <p>{issue.issue.body}</p>
+          </div>
+          <div>
+            {isLoading ? <Spinner /> : <Comments comments={comments} />}
+          </div>
+        </Modal>
       )}
       <li onClick={handleClick}>
         <div className={styles.contentHeader}>
@@ -49,7 +55,7 @@ const Issue = ({ issue }) => {
                 <small
                   className={styles.label}
                   key={label.id}
-                  style={{ "backgroundColor": "#" + label.color }}
+                  style={{ backgroundColor: "#" + label.color }}
                 >
                   {label.name}
                 </small>

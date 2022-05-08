@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPullsComments } from "../../../store/issues-pull-actions";
 import Modal from "../../Modals/Modal";
+import Spinner from "../../Spinner/Spinner";
+import Comments from "../Comments/Comments";
 import styles from "../issue-pull.module.css";
 const messageIcon = (
   <svg
@@ -21,11 +23,12 @@ const messageIcon = (
 );
 const Pull = ({ pull }) => {
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const comments = useSelector((state) => state.pullRequests.comments || []);
   const dispatch = useDispatch();
   const handleClick = () => {
     if (!showModal) {
-      dispatch(fetchPullsComments(pull.comments_url));
+      dispatch(fetchPullsComments(pull.comments_url, setIsLoading));
     }
     setShowModal((show) => !show);
   };
@@ -33,12 +36,19 @@ const Pull = ({ pull }) => {
   return (
     <React.Fragment>
       {showModal && (
-        <Modal
-          onClick={handleClick}
-          title={pull.title}
-          description={pull.body}
-          comments={comments}
-        />
+        <Modal onClick={handleClick}>
+          <div>
+            <h1>{pull.title}</h1>
+            <p>{pull.body}</p>
+          </div>
+          <div>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <Comments comments={comments} />
+            )}
+          </div>
+        </Modal>
       )}
       <li onClick={handleClick}>
         <div className={styles.contentHeader}>

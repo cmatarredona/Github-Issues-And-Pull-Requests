@@ -1,21 +1,27 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { checkRepository } from "../../store/issues-pull-actions";
+import Spinner from "../Spinner/Spinner";
 import styles from "./SearchForm.module.css";
 
 const SearchForm = ({ onSubmitForm }) => {
   const userRef = useRef();
   const repoRef = useRef();
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const formHandler = async (e) => {
     e.preventDefault();
     onSubmitForm(userRef.current.value, repoRef.current.value);
     const response = await dispatch(
-      checkRepository(userRef.current.value, repoRef.current.value)
+      checkRepository(
+        userRef.current.value,
+        repoRef.current.value,
+        setIsLoading
+      )
     );
     setMessage(response.message || "Valid repository");
-    if(response.message?.includes("API rate limit exceeded")){
+    if (response.message?.includes("API rate limit exceeded")) {
       setMessage("API rate limit exceeded");
     }
   };
@@ -41,7 +47,8 @@ const SearchForm = ({ onSubmitForm }) => {
           placeholder={repoPlaceholder}
         />
       </div>
-      <p className={styles.message}>{message}</p>
+      {isLoading && <div className={styles.wh}><Spinner /></div>}
+      {!isLoading && <p className={styles.message}>{message}</p>}
       <button type="submit">Search</button>
     </form>
   );
